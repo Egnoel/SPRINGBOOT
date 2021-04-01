@@ -14,12 +14,6 @@ import java.util.List;
 @RequestMapping(path = "/crud")
 public class UserController {
 
-
-    private UserRepository userRepository;
-
-    UserController(UserService service){
-        this.userService = service;
-    }
     @Autowired
     private UserService userService;
 

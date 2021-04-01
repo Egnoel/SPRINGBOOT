@@ -2,37 +2,38 @@ package blue.storm.crud.Service;
 
 import blue.storm.crud.model.UserEntity;
 import blue.storm.crud.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.List;
 
 @Service
 public class UserService {
 
+    @Autowired
    private UserRepository userRepository;
 
-   UserService(UserRepository repoInterface)
-   {
-       this.userRepository = repoInterface;
-   }
 
-   public UserEntity add(@RequestBody UserEntity entity){
+
+   public UserEntity add(UserEntity entity){
+
        return userRepository.save(entity);
    }
 
    public List listAll(){
+
        return userRepository.findAll();
    }
-    public ResponseEntity lisById(@PathVariable long id){
+
+    public ResponseEntity lisById( long id){
         return userRepository.findById(id)
                 .map(record->ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity updateById(@PathVariable("id") long id, @RequestBody UserEntity entity){
+    public ResponseEntity updateById(long id, UserEntity entity){
         return userRepository.findById(id)
                 .map(record->{
                     record.setFirst_name(entity.getFirst_name());
@@ -43,7 +44,7 @@ public class UserService {
                 }).orElse(ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<?> deleteById(@PathVariable long id){
+    public ResponseEntity<?> deleteById(long id){
         return userRepository.findById(id)
                 .map(record->{
                     userRepository.deleteById(id);
